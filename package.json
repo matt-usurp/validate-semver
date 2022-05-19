@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "name": "@matt-usurp/validate-semver",
+  "description": "A GitHub action for validating and cleanse semver inputs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt-usurp/validate-semver.git"
+  },
+  "homepage": "https://github.com/matt-usurp/validate-semver#readme",
+  "bugs": {
+    "url": "https://github.com/matt-usurp/validate-semver/issues"
+  },
+  "keywords": [
+    "github",
+    "github-action",
+    "workflow",
+    "semver"
+  ],
+  "contributors": [
+    {
+      "name": "Matthew Rose",
+      "email": "matt.usurp@gmail.com"
+    }
+  ],
+  "engines": {
+    "node": ">=14.17.0",
+    "npm": ">=7.16.0"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@actions/core": "^1.8.2",
+    "@matt-usurp/grok": "^0.6.3",
+    "semver": "^7.3.7"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@tsconfig/node14": "^1.0.1",
+    "@types/eslint": "^8.4.1",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^14.18.18",
+    "@types/semver": "^7.3.9",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "esbuild": "^0.14.39",
+    "eslint": "^8.12.0",
+    "eslint-formatter-codeframe": "^7.32.1",
+    "husky": "^8.0.1",
+    "ts-jest": "^28.0.2"
+  }
+}
