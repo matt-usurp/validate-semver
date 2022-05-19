@@ -5,6 +5,10 @@ A cleansing step is taken additionally to strip away prefixes and support some c
 
 ## Usage
 
+The action can be used on its own or with an assigned `id` depending on the use case.
+When the given `version` is not valid the action will cause the workflow to halt with an error.
+Otherwise the version and its breakdown are avaialbe through the outputs.
+
 ```yaml
 - id: semver
   uses: matt-usurp/validate-semver@v1
