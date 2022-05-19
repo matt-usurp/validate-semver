@@ -10,7 +10,7 @@ branding:
   icon: briefcase
 
 runs:
-  using: node14
+  using: node16
   main: build/action.js
 
 inputs:
