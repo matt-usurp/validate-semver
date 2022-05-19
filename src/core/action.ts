@@ -14,15 +14,18 @@ export type ActionDependencies = {
 export const action = async ({ input, output, fail }: ActionDependencies): Promise<void> => {
   try {
     const version = input('version', { required: true });
-    const cleansed = validate(version);
+    const validated = validate(version);
 
-    if (cleansed === null) {
+    if (validated === null) {
       fail('The value given is not a valid semantic version');
 
       return;
     }
 
-    output('version', cleansed);
+    output('version', validated.version);
+    output('major', validated.part.major);
+    output('minor', validated.part.minor);
+    output('patch', validated.part.patch);
   } catch (error: unknown) {
     fail(`An unknown error occured: ${error}`);
   }

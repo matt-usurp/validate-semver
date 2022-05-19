@@ -19,9 +19,12 @@ describe('action()', (): void => {
 
     expect(input).toBeCalledTimes(1);
 
-    expect(output).toBeCalledTimes(1);
+    expect(output).toBeCalledTimes(4);
     expect(output.mock.calls).toEqual([
       ['version', '1.2.3'],
+      ['major', '1'],
+      ['minor', '2'],
+      ['patch', '3'],
     ]);
 
     expect(fail).toBeCalledTimes(0);
@@ -44,9 +47,12 @@ describe('action()', (): void => {
 
     expect(input).toBeCalledTimes(1);
 
-    expect(output).toBeCalledTimes(1);
+    expect(output).toBeCalledTimes(4);
     expect(output.mock.calls).toEqual([
       ['version', '10.23.4'],
+      ['major', '10'],
+      ['minor', '23'],
+      ['patch', '4'],
     ]);
 
     expect(fail).toBeCalledTimes(0);
@@ -69,9 +75,12 @@ describe('action()', (): void => {
 
     expect(input).toBeCalledTimes(1);
 
-    expect(output).toBeCalledTimes(1);
+    expect(output).toBeCalledTimes(4);
     expect(output.mock.calls).toEqual([
       ['version', '4.36.14'],
+      ['major', '4'],
+      ['minor', '36'],
+      ['patch', '14'],
     ]);
 
     expect(fail).toBeCalledTimes(0);

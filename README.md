@@ -13,6 +13,9 @@ A cleansing step is taken additionally to strip away prefixes and support some c
 
 - run: |
     echo "v${{ steps.semver.outputs.version }}"
+    echo "v${{ steps.semver.outputs.major }}"
+    echo "v${{ steps.semver.outputs.minor }}"
+    echo "v${{ steps.semver.outputs.patch }}"
 ```
 
 ## Inputs
@@ -23,18 +26,26 @@ You can configure the action with the following parameters:
 | ---- | ---- | -------- | ----------- |
 | `version` | `string` | `true` | The version or [git-ref](https://git-scm.com/book/en/v2/Git-Internals-Git-References) |
 
+> **Note** that a valid version can be with or without the `v` prefix.
+> This prefix will be stripped if present.
+
 ## Outputs
 
 The following outputs are available through `steps.<id>.outputs` when the action has completed successfully.
 
-| Name | Type | Description |
-| ---- | --- | ----------- |
-| `version` | `string` | The full version wihout prefixes |
+| Name | Type | Description | Example |
+| ---- | --- | ------------ | ------- |
+| `version` | `string` | The full version wihout prefixes | `2.13.34` |
+| `major` | `string` | The major version number | `2` |
+| `minor` | `string` | The minor version number | `13` |
+| `patch` | `string` | The patch version number | `34` |
+
+> **Note** that because the version is coerced in to a semantic version all outputs will be present assuming the action succeeds.
+> That is, the version `v4` will mean that the outputs for `minor` and `patch` will be the string value `0`.
 
 ## Resolution Strategy
 
 The `version` parameter can be a semver compliant version string or a [git-ref](https://git-scm.com/book/en/v2/Git-Internals-Git-References) pointing to a tag.
-A valid version can be with or without the `v` prefix, however the outputs will always be without this prefix.
 
 | Input | Output |
 | ----- | ------ |
