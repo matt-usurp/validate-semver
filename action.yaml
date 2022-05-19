@@ -7,7 +7,7 @@ author: Matthew Usurp
 
 branding:
   color: purple
-  icon: briefcase
+  icon: tag
 
 runs:
   using: node16
