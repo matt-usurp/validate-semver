@@ -1,5 +1,8 @@
 name: Validate Semantic Version
-description: An action for validating the given version input and cleansing it.
+description: |
+  An action that can validate the given `version` input and validate that it complies with semantic versioning.
+  If the action succeeds then the version and its breakdown can be accessed through outputs.
+
 author: Matthew Usurp
 
 branding:
@@ -14,10 +17,9 @@ inputs:
   version:
     required: true
     description: |
-      The version you wish to validate and cleanse.
-      This should be a semvar compliant version string with or without the "v" prefix.
-      Optionally this can be a "git-ref" path where the final segment is a semver compliant version string.
-      This works great with tag refs.
+      The version you wish to validate.
+      This can be semantic version compliant string with or without the "v" prefix.
+      Optionally this can be a "git-ref" pointing to a tag where the tag name is a semver compliant version string.
 
 outputs:
   version:
