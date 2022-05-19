@@ -26,3 +26,15 @@ outputs:
     description: |
       The version after it has been cleansed and validated.
       This value has been stripped of any prefixes and is a raw semver string without the "v" prefix.
+
+  major:
+    description: |
+      The major version extracted from the resolved version.
+
+  minor:
+    description: |
+      The minor version extracted from the resolved version.
+
+  patch:
+    description: |
+      The patch version extracted from the resolved version.
