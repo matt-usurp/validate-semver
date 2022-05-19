@@ -1,8 +1,10 @@
 # Validate Semantic Version Action
 
-An action that can validate the given `version` input and validate that it complies with semantic versioning.
+> Ensure the given version complies with semantic versioning.
+
+An action that can validate the given `version` input and ensure that it complies with [semantic versioning](http://semver.org/).
 If the action suceeds then the version and its breakdown can be accessed through outputs.
-A cleansing step is taken additionally to strip away prefixes and support some common use cases such as extracting a the `version` from a given [git-ref](https://git-scm.com/book/en/v2/Git-Internals-Git-References) instead.
+The input is analysed and the version is extracted if a [git-ref](https://git-scm.com/book/en/v2/Git-Internals-Git-References) has been provided.
 
 ## Usage
 

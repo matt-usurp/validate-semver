@@ -1,7 +1,5 @@
 name: Validate Semantic Version
-description: |
-  An action that can validate the given `version` input and validate that it complies with semantic versioning.
-  If the action succeeds then the version and its breakdown can be accessed through outputs.
+description: Ensure the given version complies with semantic versioning.
 
 author: Matthew Usurp
 
