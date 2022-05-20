@@ -2025,19 +2025,29 @@ var validate = (value) => {
   if (coerced === null) {
     return null;
   }
-  return coerced.format();
+  return {
+    version: coerced.format(),
+    part: {
+      major: coerced.major.toString(),
+      minor: coerced.minor.toString(),
+      patch: coerced.patch.toString()
+    }
+  };
 };
 
 // src/core/action.ts
 var action = async ({ input: input2, output: output2, fail: fail2 }) => {
   try {
     const version = input2("version", { required: true });
-    const cleansed = validate(version);
-    if (cleansed === null) {
+    const validated = validate(version);
+    if (validated === null) {
       fail2("The value given is not a valid semantic version");
       return;
     }
-    output2("version", cleansed);
+    output2("version", validated.version);
+    output2("major", validated.part.major);
+    output2("minor", validated.part.minor);
+    output2("patch", validated.part.patch);
   } catch (error) {
     fail2(`An unknown error occured: ${error}`);
   }
