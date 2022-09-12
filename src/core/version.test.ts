@@ -1,42 +1,69 @@
-import { validate } from './version';
+import { resolve } from './version';
 
-describe('validate()', (): void => {
-  it.each<[input: string, version: string, major: string, minor: string, patch: string]>([
-    ['1', '1.0.0', '1', '0', '0'],
-    ['v3', '3.0.0', '3', '0', '0'],
+describe('resolve()', (): void => {
+  type TestCase = {
+    input: string;
 
-    ['1.0', '1.0.0', '1', '0', '0'],
-    ['1.1', '1.1.0', '1', '1', '0'],
-    ['v3.4', '3.4.0', '3', '4', '0'],
+    version: string;
 
-    ['v1.0.0', '1.0.0', '1', '0', '0'],
-    ['v1.2.3', '1.2.3', '1', '2', '3'],
-    ['v3.4.2', '3.4.2', '3', '4', '2'],
+    major: string;
+    minor: string;
+    patch: string;
+    extra: string;
+  };
 
-    ['refs/tags/1', '1.0.0', '1', '0', '0'],
-    ['refs/tags/3', '3.0.0', '3', '0', '0'],
-    ['refs/tags/v3', '3.0.0', '3', '0', '0'],
+  it.each<TestCase>([
+    { input: '1', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'v3', version: '3.0.0', major: '3', minor: '0', patch: '0', extra: '' },
 
-    ['refs/tags/1.0', '1.0.0', '1', '0', '0'],
-    ['refs/tags/3.4', '3.4.0', '3', '4', '0'],
-    ['refs/tags/v5.3', '5.3.0', '5', '3', '0'],
+    { input: '1.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: '1.1', version: '1.1.0', major: '1', minor: '1', patch: '0', extra: '' },
+    { input: 'v3.4', version: '3.4.0', major: '3', minor: '4', patch: '0', extra: '' },
 
-    ['refs/tags/1.0.0', '1.0.0', '1', '0', '0'],
-    ['refs/tags/3.4.2', '3.4.2', '3', '4', '2'],
-    ['refs/tags/v4.6.1', '4.6.1', '4', '6', '1'],
-  ])('with value, can cleanse, %s', (input, version, major, minor, patch): void => {
-    const value = validate(input);
+    { input: 'v1.0.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'v1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
+    { input: 'v3.4.2', version: '3.4.2', major: '3', minor: '4', patch: '2', extra: '' },
 
-    expect(value).not.toBeNull();
-    expect(value?.version).toStrictEqual(version);
-    expect(value?.part.major).toStrictEqual(major);
-    expect(value?.part.minor).toStrictEqual(minor);
-    expect(value?.part.patch).toStrictEqual(patch);
+    { input: 'refs/tags/1', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'refs/tags/3', version: '3.0.0', major: '3', minor: '0', patch: '0', extra: '' },
+    { input: 'refs/tags/v3', version: '3.0.0', major: '3', minor: '0', patch: '0', extra: '' },
+
+    { input: 'refs/tags/1.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'refs/tags/3.4', version: '3.4.0', major: '3', minor: '4', patch: '0', extra: '' },
+    { input: 'refs/tags/v5.3', version: '5.3.0', major: '5', minor: '3', patch: '0', extra: '' },
+
+    { input: 'refs/tags/1.0.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'refs/tags/3.4.2', version: '3.4.2', major: '3', minor: '4', patch: '2', extra: '' },
+    { input: 'refs/tags/v4.6.1', version: '4.6.1', major: '4', minor: '6', patch: '1', extra: '' },
+
+    { input: '1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', extra: 'beta.1' },
+    { input: '1.2-beta.2', version: '1.2.0-beta.2', major: '1', minor: '2', patch: '0', extra: 'beta.2' },
+    { input: '1.2.3-beta.3', version: '1.2.3-beta.3', major: '1', minor: '2', patch: '3', extra: 'beta.3' },
+
+    { input: 'v1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', extra: 'beta.1' },
+    { input: 'v1.2-beta.2', version: '1.2.0-beta.2', major: '1', minor: '2', patch: '0', extra: 'beta.2' },
+    { input: 'v1.2.3-beta.3', version: '1.2.3-beta.3', major: '1', minor: '2', patch: '3', extra: 'beta.3' },
+
+    { input: 'refs/tags/v1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', extra: 'beta.1' },
+    { input: 'refs/tags/v1.2-beta.2', version: '1.2.0-beta.2', major: '1', minor: '2', patch: '0', extra: 'beta.2' },
+    { input: 'refs/tags/v1.2.3-beta.3', version: '1.2.3-beta.3', major: '1', minor: '2', patch: '3', extra: 'beta.3' },
+
+    { input: '1.2.3-dev', version: '1.2.3-dev', major: '1', minor: '2', patch: '3', extra: 'dev' },
+    { input: '1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', extra: 'dev-2022-01-01' },
+  ])('with value, can cleanse, $input', (data): void => {
+    const value = resolve(data.input);
+
+    expect(value).not.toBeUndefined();
+    expect(value?.version).toStrictEqual(data.version);
+    expect(value?.part.major).toStrictEqual(data.major);
+    expect(value?.part.minor).toStrictEqual(data.minor);
+    expect(value?.part.patch).toStrictEqual(data.patch);
+    expect(value?.part.extra).toStrictEqual(data.extra);
   });
 
   it('with value, invalid, return null', (): void => {
     expect(
-      validate('testing'),
-    ).toBeNull();
+      resolve('testing'),
+    ).toBeUndefined();
   });
 });

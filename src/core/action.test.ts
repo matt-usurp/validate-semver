@@ -19,12 +19,13 @@ describe('action()', (): void => {
 
     expect(input).toBeCalledTimes(1);
 
-    expect(output).toBeCalledTimes(4);
+    expect(output).toBeCalledTimes(5);
     expect(output.mock.calls).toEqual([
       ['version', '1.2.3'],
       ['major', '1'],
       ['minor', '2'],
       ['patch', '3'],
+      ['extra', ''],
     ]);
 
     expect(fail).toBeCalledTimes(0);
@@ -47,12 +48,42 @@ describe('action()', (): void => {
 
     expect(input).toBeCalledTimes(1);
 
-    expect(output).toBeCalledTimes(4);
+    expect(output).toBeCalledTimes(5);
     expect(output.mock.calls).toEqual([
       ['version', '10.23.4'],
       ['major', '10'],
       ['minor', '23'],
       ['patch', '4'],
+      ['extra', ''],
+    ]);
+
+    expect(fail).toBeCalledTimes(0);
+  });
+
+  it('with valid version input, suffixed with prerelease, outputs with prerelease', async (): Promise<void> => {
+    const input = fn<InputFunction>();
+    const output = fn<OutputFunction>();
+    const fail = fn<FailFunction>();
+
+    input.mockImplementationOnce(() => {
+      return '2.3-alpha.2';
+    });
+
+    await action({
+      input,
+      output,
+      fail,
+    });
+
+    expect(input).toBeCalledTimes(1);
+
+    expect(output).toBeCalledTimes(5);
+    expect(output.mock.calls).toEqual([
+      ['version', '2.3.0-alpha.2'],
+      ['major', '2'],
+      ['minor', '3'],
+      ['patch', '0'],
+      ['extra', 'alpha.2'],
     ]);
 
     expect(fail).toBeCalledTimes(0);
@@ -75,12 +106,42 @@ describe('action()', (): void => {
 
     expect(input).toBeCalledTimes(1);
 
-    expect(output).toBeCalledTimes(4);
+    expect(output).toBeCalledTimes(5);
     expect(output.mock.calls).toEqual([
       ['version', '4.36.14'],
       ['major', '4'],
       ['minor', '36'],
       ['patch', '14'],
+      ['extra', ''],
+    ]);
+
+    expect(fail).toBeCalledTimes(0);
+  });
+
+  it('with valid version input, git ref, tag, suffixed with prerelease, output version part with prerelease suffix', async (): Promise<void> => {
+    const input = fn<InputFunction>();
+    const output = fn<OutputFunction>();
+    const fail = fn<FailFunction>();
+
+    input.mockImplementationOnce(() => {
+      return 'refs/tags/v5.31.12-beta.1';
+    });
+
+    await action({
+      input,
+      output,
+      fail,
+    });
+
+    expect(input).toBeCalledTimes(1);
+
+    expect(output).toBeCalledTimes(5);
+    expect(output.mock.calls).toEqual([
+      ['version', '5.31.12-beta.1'],
+      ['major', '5'],
+      ['minor', '31'],
+      ['patch', '12'],
+      ['extra', 'beta.1'],
     ]);
 
     expect(fail).toBeCalledTimes(0);
