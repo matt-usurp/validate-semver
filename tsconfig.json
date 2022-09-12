@@ -25,6 +25,10 @@
     "noEmit": true,
 
     "keyofStringsOnly": true,
+
+    "types": [
+      "vitest/globals",
+    ],
   },
 
   "include": [
@@ -32,6 +36,6 @@
 
     ".eslintrc.js",
     "commitlint.config.js",
-    "jest.config.js",
+    "vitest.config.ts",
   ],
 }
