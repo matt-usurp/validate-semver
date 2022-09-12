@@ -1,4 +1,3 @@
-import type { Nullable } from '@matt-usurp/grok';
 import coerce from 'semver/functions/coerce';
 
 export type VersionBreakdown = {
@@ -8,24 +7,35 @@ export type VersionBreakdown = {
     readonly major: string;
     readonly minor: string;
     readonly patch: string;
+    readonly extra: string;
   };
 };
 
-export const validate = (value: string): Nullable<VersionBreakdown> => {
+export const resolve = (value: string): VersionBreakdown | undefined => {
   const refless = value.replace(/^refs\/tags\//, '');
   const coerced = coerce(refless);
 
   if (coerced === null) {
-    return null;
+    return undefined;
+  }
+
+  let extra = '';
+  let version = coerced.format();
+
+  const prerelease = refless.indexOf('-');
+  if (prerelease > -1) {
+    extra = refless.slice(prerelease + 1);
+    version = `${version}-${extra}`;
   }
 
   return {
-    version: coerced.format(),
+    version,
 
     part: {
       major: coerced.major.toString(),
       minor: coerced.minor.toString(),
       patch: coerced.patch.toString(),
+      extra,
     },
   };
 };

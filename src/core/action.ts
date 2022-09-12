@@ -1,5 +1,5 @@
 import type { InputOptions } from '@actions/core';
-import { validate } from './version';
+import { resolve } from './version';
 
 export type InputFunction = (name: string, options: InputOptions) => string;
 export type OutputFunction = (name: string, value: string) => void;
@@ -14,9 +14,9 @@ export type ActionDependencies = {
 export const action = async ({ input, output, fail }: ActionDependencies): Promise<void> => {
   try {
     const version = input('version', { required: true });
-    const validated = validate(version);
+    const validated = resolve(version);
 
-    if (validated === null) {
+    if (validated === undefined) {
       fail('The value given is not a valid semantic version');
 
       return;
@@ -26,6 +26,7 @@ export const action = async ({ input, output, fail }: ActionDependencies): Promi
     output('major', validated.part.major);
     output('minor', validated.part.minor);
     output('patch', validated.part.patch);
+    output('extra', validated.part.extra);
   } catch (error: unknown) {
     fail(`An unknown error occured: ${error}`);
   }

@@ -23,6 +23,7 @@ Otherwise the version and its breakdown are avaialbe through the outputs.
     echo "v${{ steps.semver.outputs.major }}"
     echo "v${{ steps.semver.outputs.minor }}"
     echo "v${{ steps.semver.outputs.patch }}"
+    echo "v${{ steps.semver.outputs.extra }}"
 ```
 
 ## Inputs
@@ -35,6 +36,7 @@ You can configure the action with the following parameters:
 
 > **Note** that a valid version can be with or without the `v` prefix.
 > This prefix will be stripped if present.
+> If you wish to keep the `v` prefix then you can manually add it when you use the outputs.
 
 ## Outputs
 
@@ -42,13 +44,15 @@ The following outputs are available through `steps.<id>.outputs` when the action
 
 | Name | Type | Description | Example |
 | ---- | --- | ------------ | ------- |
-| `version` | `string` | The full version wihout prefixes | `2.13.34` |
+| `version` | `string` | The full version wihout prefixes | `2.13.34-dev` |
 | `major` | `string` | The major version number | `2` |
 | `minor` | `string` | The minor version number | `13` |
 | `patch` | `string` | The patch version number | `34` |
+| `extra` | `string` | The prerelease version number | `dev` |
 
 > **Note** that because the version is coerced in to a semantic version all outputs will be present assuming the action succeeds.
 > That is, the version `v4` will mean that the outputs for `minor` and `patch` will be the string value `0`.
+> In all cases the `extra` output will always be an empty string (`""`) unless the version is a [prerelease version](https://semver.org/#spec-item-9).
 
 ## Resolution Strategy
 
@@ -67,3 +71,10 @@ If you instead supply a [git-ref](https://git-scm.com/book/en/v2/Git-Internals-G
 | `refs/tags/1` or `refs/tags/v1` | `1.0.0` |
 | `refs/tags/1.2` or `refs/tags/v1.2` | `1.2.0` |
 | `refs/tags/1.2.3` or `refs/tags/v1.2.3` | `1.2.3` |
+
+It is possible to also resolve [prerelease](https://semver.org/#spec-item-9) versions in the same way, this takes the first `-` and splits the version before trying to resolve.
+Should the version part resolve then the prerelease part is re-attached.
+
+| Input | Output |
+| ----- | ------ |
+| `v1-alpha.0` | `1.0.0-alpha.0` |
