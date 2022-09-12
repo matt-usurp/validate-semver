@@ -52,11 +52,14 @@ build: \
 	build.compile.verify
 
 build.compile:
-	npx esbuild src/main.ts \
-		--outfile=build/action.js \
+	npx esbuild \
+    src/main.ts \
+		--bundle \
 		--platform=node \
+		--target=node16 \
+		--format=cjs \
 		--tree-shaking=true \
-		--bundle
+		--outfile=build/action.js
 
 build.compile.verify:
 	test -f build/action.js
