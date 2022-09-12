@@ -30,10 +30,10 @@ export default configure({
       reportsDirectory: 'build/coverage',
       reporter: ['text', 'html'],
 
-      lines: 80,
-      functions: 80,
-      branches: 80,
-      statements: 80,
+      lines: 100,
+      functions: 100,
+      branches: 100,
+      statements: 100,
     },
   },
 });
