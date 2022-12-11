@@ -1,4 +1,4 @@
-import { resolve } from './version';
+import { resolveVersionFromString } from './version';
 
 describe('resolve()', (): void => {
   type TestCase = {
@@ -51,7 +51,7 @@ describe('resolve()', (): void => {
     { input: '1.2.3-dev', version: '1.2.3-dev', major: '1', minor: '2', patch: '3', extra: 'dev' },
     { input: '1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', extra: 'dev-2022-01-01' },
   ])('with value, can cleanse, $input', (data): void => {
-    const value = resolve(data.input);
+    const value = resolveVersionFromString(data.input);
 
     expect(value).not.toBeUndefined();
     expect(value?.version).toStrictEqual(data.version);
@@ -63,7 +63,7 @@ describe('resolve()', (): void => {
 
   it('with value, invalid, return null', (): void => {
     expect(
-      resolve('testing'),
+      resolveVersionFromString('testing'),
     ).toBeUndefined();
   });
 });

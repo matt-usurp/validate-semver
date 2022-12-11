@@ -1,5 +1,8 @@
 import coerce from 'semver/functions/coerce';
 
+/**
+ * A breakdown of the semantic version.
+ */
 export type VersionBreakdown = {
   readonly version: string;
 
@@ -11,7 +14,10 @@ export type VersionBreakdown = {
   };
 };
 
-export const resolve = (value: string): VersionBreakdown | undefined => {
+/**
+ * Resolve and cleanse the given {@link value} and coerce to a version.
+ */
+export const resolveVersionFromString = (value: string): VersionBreakdown | undefined => {
   const refless = value.replace(/^refs\/tags\//, '');
   const coerced = coerce(refless);
 

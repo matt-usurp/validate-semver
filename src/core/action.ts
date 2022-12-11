@@ -1,33 +1,63 @@
-import type { InputOptions } from '@actions/core';
-import { resolve } from './version';
+import type { InputOptions as ActionInputFunctionOptions } from '@actions/core';
+import { normaliseInputStringValue } from './action/input';
+import { resolveVersionFromString } from './version';
 
-export type InputFunction = (name: string, options: InputOptions) => string;
-export type OutputFunction = (name: string, value: string) => void;
-export type FailFunction = (reason: string) => void;
-
-export type ActionDependencies = {
-  input: InputFunction;
-  output: OutputFunction;
-  fail: FailFunction;
+export type {
+  ActionInputFunctionOptions,
 };
 
-export const action = async ({ input, output, fail }: ActionDependencies): Promise<void> => {
-  try {
-    const version = input('version', { required: true });
-    const validated = resolve(version);
+/**
+ * A function that can retreive the action input of the given {@link name}.
+ */
+export type ActionInputFunction = (name: string, options?: ActionInputFunctionOptions) => string;
 
-    if (validated === undefined) {
-      fail('The value given is not a valid semantic version');
+/**
+ * A function that can set action outputs of the given {@link name}.
+ */
+export type ActionOutputFunction = (name: string, value: string) => void;
+
+/**
+ * A function that can fail the build for a given {@link reason}.
+ */
+export type ActionFailFunction = (reason: string) => void;
+
+/**
+ * An abstraction that allows for testing of the main action function.
+ * These are the dependencies that are required for the action to run.
+ */
+export type ActionDependencies = {
+  readonly input: ActionInputFunction;
+  readonly output: ActionOutputFunction;
+  readonly fail: ActionFailFunction;
+};
+
+/**
+ * The actions main function that runs the logic.
+ */
+export const action = async (action: ActionDependencies): Promise<void> => {
+  try {
+    const version = normaliseInputStringValue(action.input('version', { required: true }));
+
+    if (version === undefined) {
+      action.fail('The version input parameter is required');
 
       return;
     }
 
-    output('version', validated.version);
-    output('major', validated.part.major);
-    output('minor', validated.part.minor);
-    output('patch', validated.part.patch);
-    output('extra', validated.part.extra);
+    const validated = resolveVersionFromString(version);
+
+    if (validated === undefined) {
+      action.fail('The version given is not a valid semantic version format');
+
+      return;
+    }
+
+    action.output('version', validated.version);
+    action.output('major', validated.part.major);
+    action.output('minor', validated.part.minor);
+    action.output('patch', validated.part.patch);
+    action.output('extra', validated.part.extra);
   } catch (error: unknown) {
-    fail(`An unknown error occured: ${error}`);
+    action.fail(`An unexpected error occured: ${error}`);
   }
 };
