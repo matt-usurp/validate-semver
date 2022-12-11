@@ -1,5 +1,4 @@
-build/coverage
+/build/coverage
+/node_modules
 
-node_modules
-
-.eslintcache
+/.eslintcache
