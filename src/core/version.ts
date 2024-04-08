@@ -1,4 +1,4 @@
-import coerce from 'semver/functions/coerce';
+import coerce from 'semver/functions/coerce.js';
 
 /**
  * A breakdown of the semantic version.

@@ -1,4 +1,4 @@
-import { normaliseInputStringValue } from './input';
+import { normaliseInputStringValue } from './input.js';
 
 describe('normaliseInputStringValue()', (): void => {
   it('with empty string, return undefined', (): void => {

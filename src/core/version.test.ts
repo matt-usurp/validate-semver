@@ -1,4 +1,4 @@
-import { resolveVersionFromString } from './version';
+import { resolveVersionFromString } from './version.js';
 
 describe('resolve()', (): void => {
   type TestCase = {

@@ -1,6 +1,6 @@
-import { fn } from '@matt-usurp/grok/testing';
-import type { ActionFailFunction, ActionInputFunction, ActionInputFunctionOptions, ActionOutputFunction } from './action';
-import { action } from './action';
+import { fn } from '@matt-usurp/grok/testing.js';
+import type { ActionFailFunction, ActionInputFunction, ActionInputFunctionOptions, ActionOutputFunction } from './action.js';
+import { action } from './action.js';
 
 describe('action()', (): void => {
   it('with valid version input, no cleansing needed, outputs same version', async (): Promise<void> => {
