@@ -8,8 +8,8 @@ branding:
   icon: tag
 
 runs:
-  using: node16
-  main: build/action.js
+  using: node20
+  main: build/action.mjs
 
 inputs:
   version:

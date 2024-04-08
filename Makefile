@@ -56,8 +56,8 @@ build.compile:
     src/main.ts \
 		--bundle \
 		--platform=node \
-		--target=node16 \
-		--format=cjs \
+		--target=node20 \
+		--format=esm \
 		--tree-shaking=true \
 		--outfile=build/action.js
 
