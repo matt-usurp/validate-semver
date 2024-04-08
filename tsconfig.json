@@ -2,16 +2,11 @@
   "extends": "@tsconfig/node16/tsconfig.json",
 
   "compilerOptions": {
-    "strict": true,
     "alwaysStrict": false,
+    "strict": true,
 
     "allowJs": false,
     "checkJs": false,
-
-    "sourceMap": true,
-    "declaration": false,
-    "removeComments": false,
-    "stripInternal": true,
 
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -24,8 +19,6 @@
     "noImplicitThis": true,
     "noEmit": true,
 
-    "keyofStringsOnly": true,
-
     "types": [
       "vitest/globals",
     ],
@@ -36,6 +29,6 @@
 
     ".eslintrc.js",
     "commitlint.config.js",
-    "vitest.config.ts",
+    "vitest.config.mts",
   ],
 }

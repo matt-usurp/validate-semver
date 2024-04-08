@@ -11,6 +11,7 @@ export default configure({
     ],
 
     coverage: {
+      provider: 'v8',
       all: true,
       clean: true,
       skipFull: true,
@@ -30,10 +31,12 @@ export default configure({
       reportsDirectory: 'build/coverage',
       reporter: ['text', 'html'],
 
-      lines: 100,
-      functions: 100,
-      branches: 100,
-      statements: 100,
+      thresholds: {
+        lines: 100,
+        functions: 100,
+        branches: 100,
+        statements: 100,
+      },
     },
   },
 });
