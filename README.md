@@ -6,6 +6,18 @@ An action that can validate the given `version` input and ensure that it complie
 If the action suceeds then the version and its breakdown can be accessed through outputs.
 The input is analysed and the version is extracted if a [git-ref](https://git-scm.com/book/en/v2/Git-Internals-Git-References) has been provided.
 
+## Install
+
+> It is **recommended** to use `v2` of this action.
+
+This is because `v1` was built when `node@16` was the most current and supported version of `node`, now this is not that case as `node@16` has been [end of life since September 11th 2023](https://nodejs.org/en/blog/announcements/nodejs16-eol).
+Please make an active effort to move away from `v1` as it is now archived and will not be receiving any new updates (features or bug fixes) from now on.
+
+| Action | Node | Comment |
+| ------ | ---- | ------- |
+| `matt-usurp/validate-semver@v2` | `node@20` | Recommended |
+| `matt-usurp/validate-semver@v1` | `node@16` | Archived |
+
 ## Usage
 
 The action can be used on its own or with an assigned `id` depending on the use case.
@@ -14,7 +26,7 @@ Otherwise the version and its breakdown are avaialbe through the outputs.
 
 ```yaml
 - id: semver
-  uses: matt-usurp/validate-semver@v1
+  uses: matt-usurp/validate-semver@v2
   with:
     version: ${{ github.ref }}
 

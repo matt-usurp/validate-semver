@@ -1,10 +1,8 @@
 import type { InputOptions as ActionInputFunctionOptions } from '@actions/core';
-import { normaliseInputStringValue } from './action/input';
-import { resolveVersionFromString } from './version';
+import { normaliseInputStringValue } from './action/input.js';
+import { resolveVersionFromString } from './version.js';
 
-export type {
-  ActionInputFunctionOptions,
-};
+export type { ActionInputFunctionOptions };
 
 /**
  * A function that can retreive the action input of the given {@link name}.
