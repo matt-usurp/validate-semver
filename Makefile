@@ -59,7 +59,7 @@ build.compile:
 		--target=node20 \
 		--format=esm \
 		--tree-shaking=true \
-		--outfile=build/action.js
+		--outfile=build/action.mjs
 
 build.compile.verify:
-	test -f build/action.js
+	test -f build/action.mjs
