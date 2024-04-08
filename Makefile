@@ -35,10 +35,10 @@ code.fix:
 	test.coverage.open
 
 test:
-	npx vitest run -c vitest.config.ts --coverage
+	npx vitest run -c vitest.config.mts --coverage
 
 test.watch:
-	npx vitest watch -c vitest.config.ts
+	npx vitest watch -c vitest.config.mts
 
 test.coverage.open:
 	open build/coverage/index.html
