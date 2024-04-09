@@ -9,7 +9,7 @@ branding:
 
 runs:
   using: node20
-  main: build/action.mjs
+  main: build/action.cjs
 
 inputs:
   version:
