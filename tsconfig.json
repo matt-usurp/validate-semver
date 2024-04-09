@@ -27,8 +27,8 @@
   "include": [
     "src",
 
-    ".eslintrc.mjs",
-    "commitlint.config.mjs",
+    ".eslintrc.cjs",
+    "commitlint.config.cjs",
     "vitest.config.mts",
   ],
 }
