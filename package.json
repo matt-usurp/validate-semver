@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "name": "@matt-usurp/validate-semver",
   "description": "A GitHub action for validating and cleanse semver inputs",
   "repository": {

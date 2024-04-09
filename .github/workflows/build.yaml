@@ -37,3 +37,7 @@ jobs:
       - run: make code
       - run: make test
       - run: make build
+
+      - run: node build/action.cjs
+        env:
+          INPUT_VERSION: 'v2.3.4'
