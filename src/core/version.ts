@@ -10,7 +10,8 @@ export type VersionBreakdown = {
     readonly major: string;
     readonly minor: string;
     readonly patch: string;
-    readonly extra: string;
+    readonly prerelease: string;
+    readonly build: string;
   };
 };
 
@@ -18,30 +19,21 @@ export type VersionBreakdown = {
  * Resolve and cleanse the given {@link value} and coerce to a version.
  */
 export const resolveVersionFromString = (value: string): VersionBreakdown | undefined => {
-  const refless = value.replace(/^refs\/tags\//, '');
-  const coerced = coerce(refless);
+  const version = coerce(value, { includePrerelease: true });
 
-  if (coerced === null) {
+  if (version === null) {
     return undefined;
   }
 
-  let extra = '';
-  let version = coerced.format();
-
-  const prerelease = refless.indexOf('-');
-  if (prerelease > -1) {
-    extra = refless.slice(prerelease + 1);
-    version = `${version}-${extra}`;
-  }
-
   return {
-    version,
+    version: version.format(),
 
     part: {
-      major: coerced.major.toString(),
-      minor: coerced.minor.toString(),
-      patch: coerced.patch.toString(),
-      extra,
+      major: version.major.toString(),
+      minor: version.minor.toString(),
+      patch: version.patch.toString(),
+      prerelease: version.prerelease.join('.'),
+      build: version.build.join('.'),
     },
   };
 };
