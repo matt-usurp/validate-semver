@@ -29,7 +29,7 @@ export const resolveVersionFromString = (value: string): VersionBreakdown | unde
   let version = coerced.format();
 
   const prerelease = refless.indexOf('-');
-  if (prerelease > -1) {
+  if (prerelease > -1 && prerelease < refless.length - 1) {
     extra = refless.slice(prerelease + 1);
     version = `${version}-${extra}`;
   }

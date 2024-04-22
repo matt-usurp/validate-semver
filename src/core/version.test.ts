@@ -50,6 +50,18 @@ describe('resolve()', (): void => {
 
     { input: '1.2.3-dev', version: '1.2.3-dev', major: '1', minor: '2', patch: '3', extra: 'dev' },
     { input: '1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', extra: 'dev-2022-01-01' },
+
+    { input: '1-', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: '1.2-', version: '1.2.0', major: '1', minor: '2', patch: '0', extra: '' },
+    { input: '1.2.3-', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
+
+    { input: 'v1-', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'v1.2-', version: '1.2.0', major: '1', minor: '2', patch: '0', extra: '' },
+    { input: 'v1.2.3-', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
+
+    { input: 'refs/tags/v1-', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'refs/tags/v1.2-', version: '1.2.0', major: '1', minor: '2', patch: '0', extra: '' },
+    { input: 'refs/tags/v1.2.3-', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
   ])('with value, can cleanse, $input', (data): void => {
     const value = resolveVersionFromString(data.input);
 
@@ -61,9 +73,12 @@ describe('resolve()', (): void => {
     expect(value?.part.extra).toStrictEqual(data.extra);
   });
 
-  it('with value, invalid, return null', (): void => {
+  it.each<string>([
+    "a.b.c",
+    "testing",
+  ])('with value, invalid, return null, $input', (version): void => {
     expect(
-      resolveVersionFromString('testing'),
+      resolveVersionFromString(version),
     ).toBeUndefined();
   });
 });
