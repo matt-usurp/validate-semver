@@ -18,8 +18,7 @@ export type VersionBreakdown = {
  * Resolve and cleanse the given {@link value} and coerce to a version.
  */
 export const resolveVersionFromString = (value: string): VersionBreakdown | undefined => {
-  const refless = value.replace(/^refs\/tags\//, '');
-  const coerced = coerce(refless);
+  const coerced = coerce(value);
 
   if (coerced === null) {
     return undefined;
@@ -28,9 +27,9 @@ export const resolveVersionFromString = (value: string): VersionBreakdown | unde
   let extra = '';
   let version = coerced.format();
 
-  const prerelease = refless.indexOf('-');
+  const prerelease = value.indexOf('-');
   if (prerelease > -1) {
-    extra = refless.slice(prerelease + 1);
+    extra = value.slice(prerelease + 1);
     version = `${version}-${extra}`;
   }
 

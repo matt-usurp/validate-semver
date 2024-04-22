@@ -21,7 +21,7 @@ describe('resolve()', (): void => {
     { input: 'v3.4', version: '3.4.0', major: '3', minor: '4', patch: '0', extra: '' },
 
     { input: 'v1.0.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
-    { input: 'v1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
+    { input: '1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
     { input: 'v3.4.2', version: '3.4.2', major: '3', minor: '4', patch: '2', extra: '' },
 
     { input: 'refs/tags/1', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
@@ -50,6 +50,28 @@ describe('resolve()', (): void => {
 
     { input: '1.2.3-dev', version: '1.2.3-dev', major: '1', minor: '2', patch: '3', extra: 'dev' },
     { input: '1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', extra: 'dev-2022-01-01' },
+
+    { input: 'release/1', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'release/v3', version: '3.0.0', major: '3', minor: '0', patch: '0', extra: '' },
+
+    { input: 'release/1.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'release/1.1', version: '1.1.0', major: '1', minor: '1', patch: '0', extra: '' },
+    { input: 'release/v3.4', version: '3.4.0', major: '3', minor: '4', patch: '0', extra: '' },
+
+    { input: 'release/v1.0.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'release/1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
+    { input: 'release/v3.4.2', version: '3.4.2', major: '3', minor: '4', patch: '2', extra: '' },
+
+    { input: 'refs/heads/release/1', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'refs/heads/release/v3', version: '3.0.0', major: '3', minor: '0', patch: '0', extra: '' },
+
+    { input: 'refs/heads/release/1.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'refs/heads/release/1.1', version: '1.1.0', major: '1', minor: '1', patch: '0', extra: '' },
+    { input: 'refs/heads/release/v3.4', version: '3.4.0', major: '3', minor: '4', patch: '0', extra: '' },
+
+    { input: 'refs/heads/release/v1.0.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
+    { input: 'refs/heads/release/1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
+    { input: 'refs/heads/release/v3.4.2', version: '3.4.2', major: '3', minor: '4', patch: '2', extra: '' },
   ])('with value, can cleanse, $input', (data): void => {
     const value = resolveVersionFromString(data.input);
 
