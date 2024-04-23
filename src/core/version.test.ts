@@ -9,47 +9,129 @@ describe('resolve()', (): void => {
     major: string;
     minor: string;
     patch: string;
-    extra: string;
+    prerelease: string;
+    build: string;
   };
 
   it.each<TestCase>([
-    { input: '1', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
-    { input: 'v3', version: '3.0.0', major: '3', minor: '0', patch: '0', extra: '' },
+    /* Release */
+    { input: '1', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'v1', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/tags/v1', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'release/v1', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: '1.2', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'v1.2', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/tags/v1.2', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'release/v1.2', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1.2', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: '1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'v1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'refs/tags/v1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'release/v1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
 
-    { input: '1.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
-    { input: '1.1', version: '1.1.0', major: '1', minor: '1', patch: '0', extra: '' },
-    { input: 'v3.4', version: '3.4.0', major: '3', minor: '4', patch: '0', extra: '' },
+    /* Pre-release */
+    { input: '1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '' },
+    { input: 'v1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '' },
+    { input: 'refs/tags/v1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '' },
+    { input: 'release/v1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '' },
+    { input: 'refs/heads/release/v1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '' },
+    { input: '1.2-dev', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '' },
+    { input: 'v1.2-dev', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '' },
+    { input: 'refs/tags/v1.2-dev', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '' },
+    { input: 'release/v1.2-dev', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '' },
+    { input: 'refs/heads/release/v1.2-dev', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '' },
+    { input: '1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: '' },
+    { input: 'v1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: '' },
+    { input: 'refs/tags/v1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: '' },
+    { input: 'release/v1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: '' },
+    { input: 'refs/heads/release/v1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: '' },
 
-    { input: 'v1.0.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
-    { input: 'v1.2.3', version: '1.2.3', major: '1', minor: '2', patch: '3', extra: '' },
-    { input: 'v3.4.2', version: '3.4.2', major: '3', minor: '4', patch: '2', extra: '' },
+    /* Empty pre-release */
+    { input: '1-', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'v1-', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/tags/v1-', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'release/v1-', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1-', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: '1.2-', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'v1.2-', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/tags/v1.2-', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'release/v1.2-', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1.2-', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: '1.2.3-', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'v1.2.3-', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'refs/tags/v1.2.3-', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'release/v1.2.3-', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1.2.3-', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
 
-    { input: 'refs/tags/1', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
-    { input: 'refs/tags/3', version: '3.0.0', major: '3', minor: '0', patch: '0', extra: '' },
-    { input: 'refs/tags/v3', version: '3.0.0', major: '3', minor: '0', patch: '0', extra: '' },
+    /* Build */
+    { input: '1+21AF26D3----117B344092BD', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '21AF26D3----117B344092BD' },
+    { input: 'v1+21AF26D3----117B344092BD', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '21AF26D3----117B344092BD' },
+    { input: 'refs/tags/v1+21AF26D3----117B344092BD', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '21AF26D3----117B344092BD' },
+    { input: 'release/v1+21AF26D3----117B344092BD', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '21AF26D3----117B344092BD' },
+    { input: 'refs/heads/release/v1+21AF26D3----117B344092BD', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '21AF26D3----117B344092BD' },
+    { input: '1.2+001', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '001' },
+    { input: 'v1.2+001', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '001' },
+    { input: 'refs/tags/v1.2+001', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '001' },
+    { input: 'release/v1.2+001', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '001' },
+    { input: 'refs/heads/release/v1.2+001', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '001' },
+    { input: '1.2.3+exp.sha.5114f85', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: 'exp.sha.5114f85' },
+    { input: 'v1.2.3+exp.sha.5114f85', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: 'exp.sha.5114f85' },
+    { input: 'refs/tags/v1.2.3+exp.sha.5114f85', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: 'exp.sha.5114f85' },
+    { input: 'release/v1.2.3+exp.sha.5114f85', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: 'exp.sha.5114f85' },
+    { input: 'refs/heads/release/v1.2.3+exp.sha.5114f85', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: 'exp.sha.5114f85' },
 
-    { input: 'refs/tags/1.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
-    { input: 'refs/tags/3.4', version: '3.4.0', major: '3', minor: '4', patch: '0', extra: '' },
-    { input: 'refs/tags/v5.3', version: '5.3.0', major: '5', minor: '3', patch: '0', extra: '' },
+    /* Empty build */
+    { input: '1+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'v1+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/tags/v1+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'release/v1+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: '1.2+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'v1.2+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/tags/v1.2+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'release/v1.2+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1.2+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: '1.2.3+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'v1.2.3+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'refs/tags/v1.2.3+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'release/v1.2.3+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1.2.3+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
 
-    { input: 'refs/tags/1.0.0', version: '1.0.0', major: '1', minor: '0', patch: '0', extra: '' },
-    { input: 'refs/tags/3.4.2', version: '3.4.2', major: '3', minor: '4', patch: '2', extra: '' },
-    { input: 'refs/tags/v4.6.1', version: '4.6.1', major: '4', minor: '6', patch: '1', extra: '' },
+    /* Pre-release and build */
+    { input: '1-beta.1+21AF26D3----117B344092BD', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '21AF26D3----117B344092BD' },
+    { input: 'v1-beta.1+21AF26D3----117B344092BD', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '21AF26D3----117B344092BD' },
+    { input: 'refs/tags/v1-beta.1+21AF26D3----117B344092BD', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '21AF26D3----117B344092BD' },
+    { input: 'release/v1-beta.1+21AF26D3----117B344092BD', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '21AF26D3----117B344092BD' },
+    { input: 'refs/heads/release/v1-beta.1+21AF26D3----117B344092BD', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', prerelease: 'beta.1', build: '21AF26D3----117B344092BD' },
+    { input: '1.2-dev+001', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '001' },
+    { input: 'v1.2-dev+001', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '001' },
+    { input: 'refs/tags/v1.2-dev+001', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '001' },
+    { input: 'release/v1.2-dev+001', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '001' },
+    { input: 'refs/heads/release/v1.2-dev+001', version: '1.2.0-dev', major: '1', minor: '2', patch: '0', prerelease: 'dev', build: '001' },
+    { input: '1.2.3-dev-2022-01-01+exp.sha.5114f85', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: 'exp.sha.5114f85' },
+    { input: 'v1.2.3-dev-2022-01-01+exp.sha.5114f85', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: 'exp.sha.5114f85' },
+    { input: 'refs/tags/v1.2.3-dev-2022-01-01+exp.sha.5114f85', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: 'exp.sha.5114f85' },
+    { input: 'release/v1.2.3-dev-2022-01-01+exp.sha.5114f85', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: 'exp.sha.5114f85' },
+    { input: 'refs/heads/release/v1.2.3-dev-2022-01-01+exp.sha.5114f85', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', prerelease: 'dev-2022-01-01', build: 'exp.sha.5114f85' },
 
-    { input: '1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', extra: 'beta.1' },
-    { input: '1.2-beta.2', version: '1.2.0-beta.2', major: '1', minor: '2', patch: '0', extra: 'beta.2' },
-    { input: '1.2.3-beta.3', version: '1.2.3-beta.3', major: '1', minor: '2', patch: '3', extra: 'beta.3' },
-
-    { input: 'v1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', extra: 'beta.1' },
-    { input: 'v1.2-beta.2', version: '1.2.0-beta.2', major: '1', minor: '2', patch: '0', extra: 'beta.2' },
-    { input: 'v1.2.3-beta.3', version: '1.2.3-beta.3', major: '1', minor: '2', patch: '3', extra: 'beta.3' },
-
-    { input: 'refs/tags/v1-beta.1', version: '1.0.0-beta.1', major: '1', minor: '0', patch: '0', extra: 'beta.1' },
-    { input: 'refs/tags/v1.2-beta.2', version: '1.2.0-beta.2', major: '1', minor: '2', patch: '0', extra: 'beta.2' },
-    { input: 'refs/tags/v1.2.3-beta.3', version: '1.2.3-beta.3', major: '1', minor: '2', patch: '3', extra: 'beta.3' },
-
-    { input: '1.2.3-dev', version: '1.2.3-dev', major: '1', minor: '2', patch: '3', extra: 'dev' },
-    { input: '1.2.3-dev-2022-01-01', version: '1.2.3-dev-2022-01-01', major: '1', minor: '2', patch: '3', extra: 'dev-2022-01-01' },
+    /* Empty pre-release and build */
+    { input: '1-+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'v1-+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/tags/v1-+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'release/v1-+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1-+', version: '1.0.0', major: '1', minor: '0', patch: '0', prerelease: '', build: '' },
+    { input: '1.2-+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'v1.2-+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/tags/v1.2-+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'release/v1.2-+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1.2-+', version: '1.2.0', major: '1', minor: '2', patch: '0', prerelease: '', build: '' },
+    { input: '1.2.3-+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'v1.2.3-+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'refs/tags/v1.2.3-+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'release/v1.2.3-+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
+    { input: 'refs/heads/release/v1.2.3-+', version: '1.2.3', major: '1', minor: '2', patch: '3', prerelease: '', build: '' },
   ])('with value, can cleanse, $input', (data): void => {
     const value = resolveVersionFromString(data.input);
 
@@ -58,12 +140,16 @@ describe('resolve()', (): void => {
     expect(value?.part.major).toStrictEqual(data.major);
     expect(value?.part.minor).toStrictEqual(data.minor);
     expect(value?.part.patch).toStrictEqual(data.patch);
-    expect(value?.part.extra).toStrictEqual(data.extra);
+    expect(value?.part.prerelease).toStrictEqual(data.prerelease);
+    expect(value?.part.build).toStrictEqual(data.build);
   });
 
-  it('with value, invalid, return null', (): void => {
+  it.each<string>([
+    'a.b.c',
+    'testing',
+  ])('with value, invalid, return null, $input', (version): void => {
     expect(
-      resolveVersionFromString('testing'),
+      resolveVersionFromString(version),
     ).toBeUndefined();
   });
 });

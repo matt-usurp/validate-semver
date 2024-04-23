@@ -2685,25 +2685,18 @@ var normaliseInputStringValue = (value) => {
 // src/core/version.ts
 var import_coerce = __toESM(require_coerce());
 var resolveVersionFromString = (value) => {
-  const refless = value.replace(/^refs\/tags\//, "");
-  const coerced = (0, import_coerce.default)(refless);
-  if (coerced === null) {
+  const version2 = (0, import_coerce.default)(value, { includePrerelease: true });
+  if (version2 === null) {
     return void 0;
   }
-  let extra = "";
-  let version2 = coerced.format();
-  const prerelease = refless.indexOf("-");
-  if (prerelease > -1) {
-    extra = refless.slice(prerelease + 1);
-    version2 = `${version2}-${extra}`;
-  }
   return {
-    version: version2,
+    version: version2.format(),
     part: {
-      major: coerced.major.toString(),
-      minor: coerced.minor.toString(),
-      patch: coerced.patch.toString(),
-      extra
+      major: version2.major.toString(),
+      minor: version2.minor.toString(),
+      patch: version2.patch.toString(),
+      prerelease: version2.prerelease.join("."),
+      build: version2.build.join(".")
     }
   };
 };
@@ -2725,7 +2718,9 @@ var action = async (action2) => {
     action2.output("major", validated.part.major);
     action2.output("minor", validated.part.minor);
     action2.output("patch", validated.part.patch);
-    action2.output("extra", validated.part.extra);
+    action2.output("extra", validated.part.prerelease);
+    action2.output("prerelease", validated.part.prerelease);
+    action2.output("build", validated.part.build);
   } catch (error) {
     action2.fail(`An unexpected error occured: ${error}`);
   }

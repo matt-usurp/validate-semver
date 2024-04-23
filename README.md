@@ -23,7 +23,8 @@ Otherwise the version and its components are avaialbe through action outputs.
     echo "v${{ steps.semver.outputs.major }}"
     echo "v${{ steps.semver.outputs.minor }}"
     echo "v${{ steps.semver.outputs.patch }}"
-    echo "v${{ steps.semver.outputs.extra }}"
+    echo "v${{ steps.semver.outputs.prerelease }}"
+    echo "v${{ steps.semver.outputs.build }}"
 ```
 
 ## Inputs
@@ -48,15 +49,17 @@ The following outputs are available through `steps.<id>.outputs` when the action
 
 | Name | Type | Description | Example |
 | ---- | --- | ------------ | ------- |
-| `version` | `string` | The full version wihout prefixes | `2.13.34-dev` |
+| `version` | `string` | The full version without prefixes | `2.13.34-dev+001` |
 | `major` | `string` | The major version number | `2` |
 | `minor` | `string` | The minor version number | `13` |
 | `patch` | `string` | The patch version number | `34` |
-| `extra` | `string` | The prerelease version or extra | `dev` |
+| `prerelease` | `string` | The prerelease version | `dev` |
+| `build` | `string` | The build metadata | `001` |
 
 > [!TIP]
 > The version is coerced in to a semantic version as per the [resolution strategy](#resolution-strategy), therefore all outputs will be present assuming the action succeeds.
-> In all cases the `extra` output will always be an empty string (`""`) unless provided in the [prerelease version](https://semver.org/#spec-item-9).
+> In all cases the `prerelease` output will always be an empty string (`""`) unless provided in the [prerelease version](https://semver.org/#spec-item-9).
+> Similarly the `build` output will always be an empty string (`""`) unless provided in the [build metadata](https://semver.org/#spec-item-10).
 
 ## Resolution Strategy
 
