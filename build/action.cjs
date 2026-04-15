@@ -1,3 +1,4 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -2201,6 +2202,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 // node_modules/semver/internal/debug.js
 var require_debug = __commonJS({
   "node_modules/semver/internal/debug.js"(exports2, module2) {
+    "use strict";
     var debug = typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => {
     };
     module2.exports = debug;
@@ -2210,6 +2212,7 @@ var require_debug = __commonJS({
 // node_modules/semver/internal/constants.js
 var require_constants = __commonJS({
   "node_modules/semver/internal/constants.js"(exports2, module2) {
+    "use strict";
     var SEMVER_SPEC_VERSION = "2.0.0";
     var MAX_LENGTH = 256;
     var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || /* istanbul ignore next */
@@ -2241,6 +2244,7 @@ var require_constants = __commonJS({
 // node_modules/semver/internal/re.js
 var require_re = __commonJS({
   "node_modules/semver/internal/re.js"(exports2, module2) {
+    "use strict";
     var {
       MAX_SAFE_COMPONENT_LENGTH,
       MAX_SAFE_BUILD_LENGTH,
@@ -2251,6 +2255,7 @@ var require_re = __commonJS({
     var re = exports2.re = [];
     var safeRe = exports2.safeRe = [];
     var src = exports2.src = [];
+    var safeSrc = exports2.safeSrc = [];
     var t = exports2.t = {};
     var R = 0;
     var LETTERDASHNUMBER = "[a-zA-Z0-9-]";
@@ -2271,6 +2276,7 @@ var require_re = __commonJS({
       debug(name, index, value);
       t[name] = index;
       src[index] = value;
+      safeSrc[index] = safe;
       re[index] = new RegExp(value, isGlobal ? "g" : void 0);
       safeRe[index] = new RegExp(safe, isGlobal ? "g" : void 0);
     };
@@ -2279,8 +2285,8 @@ var require_re = __commonJS({
     createToken("NONNUMERICIDENTIFIER", `\\d*[a-zA-Z-]${LETTERDASHNUMBER}*`);
     createToken("MAINVERSION", `(${src[t.NUMERICIDENTIFIER]})\\.(${src[t.NUMERICIDENTIFIER]})\\.(${src[t.NUMERICIDENTIFIER]})`);
     createToken("MAINVERSIONLOOSE", `(${src[t.NUMERICIDENTIFIERLOOSE]})\\.(${src[t.NUMERICIDENTIFIERLOOSE]})\\.(${src[t.NUMERICIDENTIFIERLOOSE]})`);
-    createToken("PRERELEASEIDENTIFIER", `(?:${src[t.NUMERICIDENTIFIER]}|${src[t.NONNUMERICIDENTIFIER]})`);
-    createToken("PRERELEASEIDENTIFIERLOOSE", `(?:${src[t.NUMERICIDENTIFIERLOOSE]}|${src[t.NONNUMERICIDENTIFIER]})`);
+    createToken("PRERELEASEIDENTIFIER", `(?:${src[t.NONNUMERICIDENTIFIER]}|${src[t.NUMERICIDENTIFIER]})`);
+    createToken("PRERELEASEIDENTIFIERLOOSE", `(?:${src[t.NONNUMERICIDENTIFIER]}|${src[t.NUMERICIDENTIFIERLOOSE]})`);
     createToken("PRERELEASE", `(?:-(${src[t.PRERELEASEIDENTIFIER]}(?:\\.${src[t.PRERELEASEIDENTIFIER]})*))`);
     createToken("PRERELEASELOOSE", `(?:-?(${src[t.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${src[t.PRERELEASEIDENTIFIERLOOSE]})*))`);
     createToken("BUILDIDENTIFIER", `${LETTERDASHNUMBER}+`);
@@ -2326,6 +2332,7 @@ var require_re = __commonJS({
 // node_modules/semver/internal/parse-options.js
 var require_parse_options = __commonJS({
   "node_modules/semver/internal/parse-options.js"(exports2, module2) {
+    "use strict";
     var looseOption = Object.freeze({ loose: true });
     var emptyOpts = Object.freeze({});
     var parseOptions = (options) => {
@@ -2344,8 +2351,12 @@ var require_parse_options = __commonJS({
 // node_modules/semver/internal/identifiers.js
 var require_identifiers = __commonJS({
   "node_modules/semver/internal/identifiers.js"(exports2, module2) {
+    "use strict";
     var numeric = /^[0-9]+$/;
     var compareIdentifiers = (a, b) => {
+      if (typeof a === "number" && typeof b === "number") {
+        return a === b ? 0 : a < b ? -1 : 1;
+      }
       const anum = numeric.test(a);
       const bnum = numeric.test(b);
       if (anum && bnum) {
@@ -2365,6 +2376,7 @@ var require_identifiers = __commonJS({
 // node_modules/semver/classes/semver.js
 var require_semver = __commonJS({
   "node_modules/semver/classes/semver.js"(exports2, module2) {
+    "use strict";
     var debug = require_debug();
     var { MAX_LENGTH, MAX_SAFE_INTEGER } = require_constants();
     var { safeRe: re, t } = require_re();
@@ -2451,7 +2463,25 @@ var require_semver = __commonJS({
         if (!(other instanceof _SemVer)) {
           other = new _SemVer(other, this.options);
         }
-        return compareIdentifiers(this.major, other.major) || compareIdentifiers(this.minor, other.minor) || compareIdentifiers(this.patch, other.patch);
+        if (this.major < other.major) {
+          return -1;
+        }
+        if (this.major > other.major) {
+          return 1;
+        }
+        if (this.minor < other.minor) {
+          return -1;
+        }
+        if (this.minor > other.minor) {
+          return 1;
+        }
+        if (this.patch < other.patch) {
+          return -1;
+        }
+        if (this.patch > other.patch) {
+          return 1;
+        }
+        return 0;
       }
       comparePre(other) {
         if (!(other instanceof _SemVer)) {
@@ -2490,7 +2520,7 @@ var require_semver = __commonJS({
         do {
           const a = this.build[i];
           const b = other.build[i];
-          debug("prerelease compare", i, a, b);
+          debug("build compare", i, a, b);
           if (a === void 0 && b === void 0) {
             return 0;
           } else if (b === void 0) {
@@ -2507,6 +2537,17 @@ var require_semver = __commonJS({
       // preminor will bump the version up to the next minor release, and immediately
       // down to pre-release. premajor and prepatch work the same way.
       inc(release, identifier, identifierBase) {
+        if (release.startsWith("pre")) {
+          if (!identifier && identifierBase === false) {
+            throw new Error("invalid increment argument: identifier is empty");
+          }
+          if (identifier) {
+            const match = `-${identifier}`.match(this.options.loose ? re[t.PRERELEASELOOSE] : re[t.PRERELEASE]);
+            if (!match || match[1] !== identifier) {
+              throw new Error(`invalid identifier: ${identifier}`);
+            }
+          }
+        }
         switch (release) {
           case "premajor":
             this.prerelease.length = 0;
@@ -2532,6 +2573,12 @@ var require_semver = __commonJS({
             }
             this.inc("pre", identifier, identifierBase);
             break;
+          case "release":
+            if (this.prerelease.length === 0) {
+              throw new Error(`version ${this.raw} is not a prerelease`);
+            }
+            this.prerelease.length = 0;
+            break;
           case "major":
             if (this.minor !== 0 || this.patch !== 0 || this.prerelease.length === 0) {
               this.major++;
@@ -2555,9 +2602,6 @@ var require_semver = __commonJS({
             break;
           case "pre": {
             const base = Number(identifierBase) ? 1 : 0;
-            if (!identifier && identifierBase === false) {
-              throw new Error("invalid increment argument: identifier is empty");
-            }
             if (this.prerelease.length === 0) {
               this.prerelease = [base];
             } else {
@@ -2607,6 +2651,7 @@ var require_semver = __commonJS({
 // node_modules/semver/functions/parse.js
 var require_parse = __commonJS({
   "node_modules/semver/functions/parse.js"(exports2, module2) {
+    "use strict";
     var SemVer = require_semver();
     var parse2 = (version2, options, throwErrors = false) => {
       if (version2 instanceof SemVer) {
@@ -2628,6 +2673,7 @@ var require_parse = __commonJS({
 // node_modules/semver/functions/coerce.js
 var require_coerce = __commonJS({
   "node_modules/semver/functions/coerce.js"(exports2, module2) {
+    "use strict";
     var SemVer = require_semver();
     var parse2 = require_parse();
     var { safeRe: re, t } = require_re();
