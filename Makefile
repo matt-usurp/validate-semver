@@ -56,7 +56,7 @@ build.compile:
     src/main.ts \
 		--bundle \
 		--platform=node \
-		--target=node20 \
+		--target=node24 \
 		--format=cjs \
 		--tree-shaking=true \
 		--outfile=build/action.cjs

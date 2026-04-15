@@ -8,7 +8,7 @@ branding:
   icon: tag
 
 runs:
-  using: node20
+  using: node24
   main: build/action.cjs
 
 inputs:
