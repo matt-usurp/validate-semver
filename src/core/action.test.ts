@@ -1,12 +1,12 @@
-import { fn } from '@matt-usurp/grok/testing.js';
+import { MockedFunction } from 'vitest';
 import type { ActionFailFunction, ActionInputFunction, ActionInputFunctionOptions, ActionOutputFunction } from './action.js';
 import { action } from './action.js';
 
 describe('action()', (): void => {
   it('with valid version input, no cleansing needed, outputs same version', async (): Promise<void> => {
-    const input = fn<ActionInputFunction>();
-    const output = fn<ActionOutputFunction>();
-    const fail = fn<ActionFailFunction>();
+    const input = vi.fn() as unknown as MockedFunction<ActionInputFunction>;
+    const output = vi.fn() as unknown as MockedFunction<ActionOutputFunction>;
+    const fail = vi.fn() as unknown as MockedFunction<ActionFailFunction>;
 
     input.mockReturnValueOnce('1.2.3');
 
@@ -32,9 +32,9 @@ describe('action()', (): void => {
   });
 
   it('with valid version input, prefixed with v, outputs version without prefix', async (): Promise<void> => {
-    const input = fn<ActionInputFunction>();
-    const output = fn<ActionOutputFunction>();
-    const fail = fn<ActionFailFunction>();
+    const input = vi.fn() as unknown as MockedFunction<ActionInputFunction>;
+    const output = vi.fn() as unknown as MockedFunction<ActionOutputFunction>;
+    const fail = vi.fn() as unknown as MockedFunction<ActionFailFunction>;
 
     input.mockReturnValueOnce('v10.23.4');
 
@@ -60,9 +60,9 @@ describe('action()', (): void => {
   });
 
   it('with valid version input, suffixed with prerelease, outputs with prerelease', async (): Promise<void> => {
-    const input = fn<ActionInputFunction>();
-    const output = fn<ActionOutputFunction>();
-    const fail = fn<ActionFailFunction>();
+    const input = vi.fn() as unknown as MockedFunction<ActionInputFunction>;
+    const output = vi.fn() as unknown as MockedFunction<ActionOutputFunction>;
+    const fail = vi.fn() as unknown as MockedFunction<ActionFailFunction>;
 
     input.mockReturnValueOnce('2.3-alpha.2+001');
 
@@ -88,9 +88,9 @@ describe('action()', (): void => {
   });
 
   it('with valid version input, git ref, tag, output version part', async (): Promise<void> => {
-    const input = fn<ActionInputFunction>();
-    const output = fn<ActionOutputFunction>();
-    const fail = fn<ActionFailFunction>();
+    const input = vi.fn() as unknown as MockedFunction<ActionInputFunction>;
+    const output = vi.fn() as unknown as MockedFunction<ActionOutputFunction>;
+    const fail = vi.fn() as unknown as MockedFunction<ActionFailFunction>;
 
     input.mockReturnValueOnce('refs/tags/v4.36.14');
 
@@ -116,9 +116,9 @@ describe('action()', (): void => {
   });
 
   it('with valid version input, git ref, tag, suffixed with prerelease, output version part with prerelease suffix', async (): Promise<void> => {
-    const input = fn<ActionInputFunction>();
-    const output = fn<ActionOutputFunction>();
-    const fail = fn<ActionFailFunction>();
+    const input = vi.fn() as unknown as MockedFunction<ActionInputFunction>;
+    const output = vi.fn() as unknown as MockedFunction<ActionOutputFunction>;
+    const fail = vi.fn() as unknown as MockedFunction<ActionFailFunction>;
 
     input.mockReturnValueOnce('refs/tags/v5.31.12-beta.1');
 
@@ -144,9 +144,9 @@ describe('action()', (): void => {
   });
 
   it('with empty version input, fail', async (): Promise<void> => {
-    const input = fn<ActionInputFunction>();
-    const output = fn<ActionOutputFunction>();
-    const fail = fn<ActionFailFunction>();
+    const input = vi.fn() as unknown as MockedFunction<ActionInputFunction>;
+    const output = vi.fn() as unknown as MockedFunction<ActionOutputFunction>;
+    const fail = vi.fn() as unknown as MockedFunction<ActionFailFunction>;
 
     input.mockReturnValueOnce('');
 
@@ -188,9 +188,9 @@ describe('action()', (): void => {
   });
 
   it('with input throwing, fail with unexpected error', async (): Promise<void> => {
-    const input = fn<ActionInputFunction>();
-    const output = fn<ActionOutputFunction>();
-    const fail = fn<ActionFailFunction>();
+    const input = vi.fn() as unknown as MockedFunction<ActionInputFunction>;
+    const output = vi.fn() as unknown as MockedFunction<ActionOutputFunction>;
+    const fail = vi.fn() as unknown as MockedFunction<ActionFailFunction>;
 
     input.mockImplementationOnce(() => {
       throw new Error('input-fn-error');

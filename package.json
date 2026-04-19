@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "@actions/core": "^3.0.0",
-    "@matt-usurp/grok": "^1.1.0",
     "semver": "^7.7.4"
   },
   "devDependencies": {
