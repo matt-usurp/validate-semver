@@ -42,14 +42,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - id: action
+      - id: self
         uses: ./
         with:
           version: 'refs/tags/v1.2.3'
 
-      - run: echo "version: ${{ steps.action.outputs.version }}"
-      - run: echo "major: ${{ steps.action.outputs.major }}"
-      - run: echo "minor: ${{ steps.action.outputs.minor }}"
-      - run: echo "patch: ${{ steps.action.outputs.patch }}"
-      - run: echo "prerelease: ${{ steps.action.outputs.prerelease }}"
-      - run: echo "build: ${{ steps.action.outputs.build }}"
+      - run: echo "version = ${{ steps.self.outputs.version }}"
+      - run: echo "major = ${{ steps.self.outputs.major }}"
+      - run: echo "minor = ${{ steps.self.outputs.minor }}"
+      - run: echo "patch = ${{ steps.self.outputs.patch }}"
+      - run: echo "prerelease = ${{ steps.self.outputs.prerelease }}"
+      - run: echo "build = ${{ steps.self.outputs.build }}"
