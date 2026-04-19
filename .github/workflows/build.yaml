@@ -35,6 +35,21 @@ jobs:
       - run: make test
       - run: make build
 
-      - run: node build/action.cjs
-        env:
-          INPUT_VERSION: 'v2.3.4'
+  execute:
+    name: Execute
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: action
+        uses: ./
+        with:
+          version: 'refs/tags/v1.2.3'
+
+      - run: echo "version: ${{ steps.action.outputs.version }}"
+      - run: echo "major: ${{ steps.action.outputs.major }}"
+      - run: echo "minor: ${{ steps.action.outputs.minor }}"
+      - run: echo "patch: ${{ steps.action.outputs.patch }}"
+      - run: echo "prerelease: ${{ steps.action.outputs.prerelease }}"
+      - run: echo "build: ${{ steps.action.outputs.build }}"
