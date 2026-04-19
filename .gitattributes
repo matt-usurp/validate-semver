@@ -1,3 +1,3 @@
-build/action.cjs linguist-generated=true
-.eslintrc.cjs linguist-generated=true
-commitlint.config.cjs linguist-generated=true
+build/action.mjs linguist-generated=true
+eslint.config.mjs linguist-generated=true
+vitest.config.mts linguist-generated=true
