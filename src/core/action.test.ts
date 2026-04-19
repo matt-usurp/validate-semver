@@ -16,19 +16,18 @@ describe('action()', (): void => {
       fail,
     });
 
-    expect(input).toBeCalledTimes(1);
+    expect(input).toHaveBeenCalledTimes(1);
     expect(input).toHaveBeenNthCalledWith<[string, ActionInputFunctionOptions]>(1, 'version', { required: true });
 
-    expect(output).toBeCalledTimes(7);
+    expect(output).toHaveBeenCalledTimes(6);
     expect(output).toHaveBeenNthCalledWith<[string, string]>(1, 'version', '1.2.3');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(2, 'major', '1');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(3, 'minor', '2');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(4, 'patch', '3');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'extra', '');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'prerelease', '');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(7, 'build', '');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'prerelease', '');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'build', '');
 
-    expect(fail).toBeCalledTimes(0);
+    expect(fail).toHaveBeenCalledTimes(0);
   });
 
   it('with valid version input, prefixed with v, outputs version without prefix', async (): Promise<void> => {
@@ -44,19 +43,18 @@ describe('action()', (): void => {
       fail,
     });
 
-    expect(input).toBeCalledTimes(1);
+    expect(input).toHaveBeenCalledTimes(1);
     expect(input).toHaveBeenNthCalledWith<[string, ActionInputFunctionOptions]>(1, 'version', { required: true });
 
-    expect(output).toBeCalledTimes(7);
+    expect(output).toHaveBeenCalledTimes(6);
     expect(output).toHaveBeenNthCalledWith<[string, string]>(1, 'version', '10.23.4');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(2, 'major', '10');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(3, 'minor', '23');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(4, 'patch', '4');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'extra', '');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'prerelease', '');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(7, 'build', '');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'prerelease', '');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'build', '');
 
-    expect(fail).toBeCalledTimes(0);
+    expect(fail).toHaveBeenCalledTimes(0);
   });
 
   it('with valid version input, suffixed with prerelease, outputs with prerelease', async (): Promise<void> => {
@@ -72,19 +70,18 @@ describe('action()', (): void => {
       fail,
     });
 
-    expect(input).toBeCalledTimes(1);
+    expect(input).toHaveBeenCalledTimes(1);
     expect(input).toHaveBeenNthCalledWith<[string, ActionInputFunctionOptions]>(1, 'version', { required: true });
 
-    expect(output).toBeCalledTimes(7);
+    expect(output).toHaveBeenCalledTimes(6);
     expect(output).toHaveBeenNthCalledWith<[string, string]>(1, 'version', '2.3.0-alpha.2');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(2, 'major', '2');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(3, 'minor', '3');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(4, 'patch', '0');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'extra', 'alpha.2');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'prerelease', 'alpha.2');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(7, 'build', '001');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'prerelease', 'alpha.2');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'build', '001');
 
-    expect(fail).toBeCalledTimes(0);
+    expect(fail).toHaveBeenCalledTimes(0);
   });
 
   it('with valid version input, git ref, tag, output version part', async (): Promise<void> => {
@@ -100,19 +97,18 @@ describe('action()', (): void => {
       fail,
     });
 
-    expect(input).toBeCalledTimes(1);
+    expect(input).toHaveBeenCalledTimes(1);
     expect(input).toHaveBeenNthCalledWith<[string, ActionInputFunctionOptions]>(1, 'version', { required: true });
 
-    expect(output).toBeCalledTimes(7);
+    expect(output).toHaveBeenCalledTimes(6);
     expect(output).toHaveBeenNthCalledWith<[string, string]>(1, 'version', '4.36.14');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(2, 'major', '4');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(3, 'minor', '36');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(4, 'patch', '14');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'extra', '');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'prerelease', '');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(7, 'build', '');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'prerelease', '');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'build', '');
 
-    expect(fail).toBeCalledTimes(0);
+    expect(fail).toHaveBeenCalledTimes(0);
   });
 
   it('with valid version input, git ref, tag, suffixed with prerelease, output version part with prerelease suffix', async (): Promise<void> => {
@@ -128,19 +124,18 @@ describe('action()', (): void => {
       fail,
     });
 
-    expect(input).toBeCalledTimes(1);
+    expect(input).toHaveBeenCalledTimes(1);
     expect(input).toHaveBeenNthCalledWith<[string, ActionInputFunctionOptions]>(1, 'version', { required: true });
 
-    expect(output).toBeCalledTimes(7);
+    expect(output).toHaveBeenCalledTimes(6);
     expect(output).toHaveBeenNthCalledWith<[string, string]>(1, 'version', '5.31.12-beta.1');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(2, 'major', '5');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(3, 'minor', '31');
     expect(output).toHaveBeenNthCalledWith<[string, string]>(4, 'patch', '12');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'extra', 'beta.1');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'prerelease', 'beta.1');
-    expect(output).toHaveBeenNthCalledWith<[string, string]>(7, 'build', '');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(5, 'prerelease', 'beta.1');
+    expect(output).toHaveBeenNthCalledWith<[string, string]>(6, 'build', '');
 
-    expect(fail).toBeCalledTimes(0);
+    expect(fail).toHaveBeenCalledTimes(0);
   });
 
   it('with empty version input, fail', async (): Promise<void> => {
@@ -156,19 +151,19 @@ describe('action()', (): void => {
       fail,
     });
 
-    expect(input).toBeCalledTimes(1);
+    expect(input).toHaveBeenCalledTimes(1);
     expect(input).toHaveBeenNthCalledWith<[string, ActionInputFunctionOptions]>(1, 'version', { required: true });
 
-    expect(output).toBeCalledTimes(0);
+    expect(output).toHaveBeenCalledTimes(0);
 
-    expect(fail).toBeCalledTimes(1);
+    expect(fail).toHaveBeenCalledTimes(1);
     expect(fail).toHaveBeenNthCalledWith<[string]>(1, 'The version input parameter is required');
   });
 
   it('with invalid version input, fail', async (): Promise<void> => {
-    const input = fn<ActionInputFunction>();
-    const output = fn<ActionOutputFunction>();
-    const fail = fn<ActionFailFunction>();
+    const input = vi.fn() as unknown as MockedFunction<ActionInputFunction>;
+    const output = vi.fn() as unknown as MockedFunction<ActionOutputFunction>;
+    const fail = vi.fn() as unknown as MockedFunction<ActionFailFunction>;
 
     input.mockReturnValueOnce('invalid-tag');
 
@@ -178,12 +173,12 @@ describe('action()', (): void => {
       fail,
     });
 
-    expect(input).toBeCalledTimes(1);
+    expect(input).toHaveBeenCalledTimes(1);
     expect(input).toHaveBeenNthCalledWith<[string, ActionInputFunctionOptions]>(1, 'version', { required: true });
 
-    expect(output).toBeCalledTimes(0);
+    expect(output).toHaveBeenCalledTimes(0);
 
-    expect(fail).toBeCalledTimes(1);
+    expect(fail).toHaveBeenCalledTimes(1);
     expect(fail).toHaveBeenNthCalledWith<[string]>(1, 'The version given is not a valid semantic version format');
   });
 
@@ -202,12 +197,12 @@ describe('action()', (): void => {
       fail,
     });
 
-    expect(input).toBeCalledTimes(1);
+    expect(input).toHaveBeenCalledTimes(1);
     expect(input).toHaveBeenNthCalledWith<[string, ActionInputFunctionOptions]>(1, 'version', { required: true });
 
-    expect(output).toBeCalledTimes(0);
+    expect(output).toHaveBeenCalledTimes(0);
 
-    expect(fail).toBeCalledTimes(1);
+    expect(fail).toHaveBeenCalledTimes(1);
     expect(fail).toHaveBeenNthCalledWith<[string]>(1, 'An unexpected error occured: Error: input-fn-error');
   });
 });
