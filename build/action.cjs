@@ -2696,7 +2696,7 @@ var require_coerce = __commonJS({
 });
 
 // src/main.ts
-var import_core = __toESM(require_core());
+var import_core = __toESM(require_core(), 1);
 
 // src/core/action/input.ts
 var normaliseInputStringValue = (value) => {
@@ -2708,7 +2708,7 @@ var normaliseInputStringValue = (value) => {
 };
 
 // src/core/version.ts
-var import_coerce = __toESM(require_coerce());
+var import_coerce = __toESM(require_coerce(), 1);
 var resolveVersionFromString = (value) => {
   const version2 = (0, import_coerce.default)(value, { includePrerelease: true });
   if (version2 === null) {
@@ -2743,7 +2743,6 @@ var action = async (action2) => {
     action2.output("major", validated.part.major);
     action2.output("minor", validated.part.minor);
     action2.output("patch", validated.part.patch);
-    action2.output("extra", validated.part.prerelease);
     action2.output("prerelease", validated.part.prerelease);
     action2.output("build", validated.part.build);
   } catch (error) {
