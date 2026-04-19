@@ -56,9 +56,9 @@ build.compile:
 		--bundle src/main.ts \
 		--platform=node \
 		--target=node24 \
-		--format=esm \
+		--format=cjs \
 		--tree-shaking=true \
-		--outfile=build/action.mjs
+		--outfile=build/action.cjs
 
 build.compile.verify:
-	test -f build/action.mjs
+	test -f build/action.cjs
