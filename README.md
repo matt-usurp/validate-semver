@@ -14,7 +14,7 @@ Otherwise the version and its components are available through the action output
 
 ```yaml
 - id: semver
-  uses: matt-usurp/validate-semver@v2
+  uses: matt-usurp/validate-semver@v3
   with:
     version: ${{ github.ref }} # refs/tags/v1.2.3
 
@@ -77,16 +77,14 @@ If you supply a [git-ref](https://git-scm.com/book/en/v2/Git-Internals-Git-Refer
 This action uses [semantic versioning](https://semver.org/) for its tagging and change management.
 
 As with most actions, there is a major version branch that mimics the latest tag for that major version.
-This means its safe to target the `v2` ref instead of a specific tag (e.g `2.0.1`) if you want to receive bug fixes automatically.
-Breaking changes from this point will result in the creation of a new `v3` branch and set of tags.
+This means its safe to target the `v3` ref instead of a specific tag (e.g `3.0.1`) if you want to receive bug fixes automatically.
+Breaking changes from this point will result in the creation of a new `v4` branch and set of tags.
 
 > [!TIP]
-> It is **recommended** to use `v2` of this action.
+> It is **recommended** to use `v3` of this action.
 
 | Action | Node | Comment |
 | ------ | ---- | ------- |
-| `matt-usurp/validate-semver@v2` | `node@20` | Recommended |
+| `matt-usurp/validate-semver@v3` | `node@24` | Recommended |
+| `matt-usurp/validate-semver@v2` | `node@20` | Archived |
 | `matt-usurp/validate-semver@v1` | `node@16` | Archived |
-
-At this point `v1` is deprecated as its target node version `node@16` has been [end of life since September 11th 2023](https://nodejs.org/en/blog/announcements/nodejs16-eol).
-You can continue to use `v1` as long as `node@16` is [supported by GitHub](https://github.blog/changelog/2023-09-22-github-actions-transitioning-from-node-16-to-node-20), however it is now archived and will not be receiving any new updates (features or bug fixes).
