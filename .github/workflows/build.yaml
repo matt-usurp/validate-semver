@@ -45,7 +45,7 @@ jobs:
       - id: self
         uses: ./
         with:
-          version: 'refs/tags/v1.2.3'
+          version: 'refs/tags/v1.2.3-dev+001'
 
       - run: echo "version = ${{ steps.self.outputs.version }}"
       - run: echo "major = ${{ steps.self.outputs.major }}"
