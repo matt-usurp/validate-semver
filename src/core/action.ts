@@ -54,8 +54,6 @@ export const action = async (action: ActionDependencies): Promise<void> => {
     action.output('major', validated.part.major);
     action.output('minor', validated.part.minor);
     action.output('patch', validated.part.patch);
-    // TODO: Remove `extra` in v3, replaced with `prerelease`
-    action.output('extra', validated.part.prerelease);
     action.output('prerelease', validated.part.prerelease);
     action.output('build', validated.part.build);
   } catch (error: unknown) {
