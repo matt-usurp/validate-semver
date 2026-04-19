@@ -53,13 +53,12 @@ build: \
 
 build.compile:
 	npx esbuild \
-    src/main.ts \
-		--bundle \
+		--bundle src/main.ts \
 		--platform=node \
 		--target=node24 \
-		--format=cjs \
+		--format=esm \
 		--tree-shaking=true \
-		--outfile=build/action.cjs
+		--outfile=build/action.mjs
 
 build.compile.verify:
-	test -f build/action.cjs
+	test -f build/action.mjs
