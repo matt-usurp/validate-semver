@@ -9,7 +9,7 @@ branding:
 
 runs:
   using: node24
-  main: build/action.cjs
+  main: build/action.mjs
 
 inputs:
   version:
