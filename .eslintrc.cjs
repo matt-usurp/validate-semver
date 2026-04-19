@@ -19,6 +19,7 @@ module.exports = {
 
   plugins: [
     '@typescript-eslint',
+    '@stylistic/ts'
   ],
 
   extends: [
@@ -33,7 +34,7 @@ module.exports = {
     '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
     '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
     '@typescript-eslint/explicit-member-accessibility': ['error', { accessibility: 'explicit' }],
-    '@typescript-eslint/member-delimiter-style': ['error'],
+    '@stylistic/ts/member-delimiter-style': ['error'],
     '@typescript-eslint/no-confusing-non-null-assertion': ['error'],
     '@typescript-eslint/no-extraneous-class': ['warn'],
     '@typescript-eslint/no-floating-promises': ['error'],
@@ -43,44 +44,44 @@ module.exports = {
     '@typescript-eslint/prefer-ts-expect-error': ['error'],
     '@typescript-eslint/promise-function-async': ['error'],
     '@typescript-eslint/strict-boolean-expressions': ['error'],
-    '@typescript-eslint/type-annotation-spacing': ['error'],
+    '@stylistic/ts/type-annotation-spacing': ['error'],
 
     /**
      * Disabled due to controlled usage of `namespace` blocks only used for type information.
      * This is still true for cases where code exists but we are using ESM style imports/exports.
      */
-    '@typescript-eslint/no-namespace': 'off',
+    '@stylistic/ts/no-namespace': 'off',
 
     // --
     // -- Eslint Overrides
     // --
 
     'brace-style': 'off',
-    '@typescript-eslint/brace-style': ['error', '1tbs'],
+    '@stylistic/ts/brace-style': ['error', '1tbs'],
 
     'comma-dangle': 'off',
-    '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
+    '@stylistic/ts/comma-dangle': ['error', 'always-multiline'],
 
     'comma-spacing': 'off',
-    '@typescript-eslint/comma-spacing': ['error'],
+    '@stylistic/ts/comma-spacing': ['error'],
 
     'func-call-spacing': 'off',
-    '@typescript-eslint/func-call-spacing': ['warn', 'never'],
+    '@stylistic/ts/func-call-spacing': ['warn', 'never'],
 
     'indent': 'off',
-    '@typescript-eslint/indent': ['warn', 2],
+    '@stylistic/ts/indent': ['warn', 2],
 
     'keyword-spacing': 'off',
-    '@typescript-eslint/keyword-spacing': ['error', { before: true, after: true }],
+    '@stylistic/ts/keyword-spacing': ['error', { before: true, after: true }],
 
     'no-extra-semi': 'off',
-    '@typescript-eslint/no-extra-semi': ['error'],
+    '@stylistic/ts/no-extra-semi': ['error'],
 
     'no-return-await': 'off',
     '@typescript-eslint/return-await': ['error'],
 
-    'no-throw-literal': 'off',
-    '@typescript-eslint/no-throw-literal': ['error'],
+    'only-throw-error': 'off',
+    '@typescript-eslint/only-throw-error': ['error'],
 
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
@@ -89,19 +90,19 @@ module.exports = {
     '@typescript-eslint/no-useless-constructor': ['error'],
 
     'object-curly-spacing': 'off',
-    '@typescript-eslint/object-curly-spacing': ['error', 'always'],
+    '@stylistic/ts/object-curly-spacing': ['error', 'always'],
 
     'quotes': 'off',
-    '@typescript-eslint/quotes': ['error', 'single'],
+    '@stylistic/ts/quotes': ['error', 'single'],
 
     'semi': 'off',
-    '@typescript-eslint/semi': ['error'],
+    '@stylistic/ts/semi': ['error'],
 
     'space-before-blocks': 'off',
-    '@typescript-eslint/space-before-blocks': ['error', 'always'],
+    '@stylistic/ts/space-before-blocks': ['error', 'always'],
 
     'space-before-function-paren': 'off',
-    '@typescript-eslint/space-before-function-paren': ['error', {
+    '@stylistic/ts/space-before-function-paren': ['error', {
       'anonymous': 'always',
       'named': 'never',
       'asyncArrow': 'always',
